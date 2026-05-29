@@ -1,0 +1,12 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    env_file: .env
+    environment:
+      MYSQL_DATABASE: week8_db
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql # 내 컴퓨터의 mysql_data 폴더에 DB 내용 저장

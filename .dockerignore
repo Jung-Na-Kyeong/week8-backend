@@ -1,0 +1,23 @@
+# 빌드 결과물 및 캐시 (이미 JAR가 만들어졌으므로 소스나 캐시는 필요 없음)
+.gradle
+build
+!build/libs/*.jar
+
+# 설정 및 보안 파일
+.env
+.env.example
+application-local.yml
+*.log
+
+# IDE 설정 파일
+.idea
+*.iml
+.vscode
+
+# 버전 관리 파일
+.git
+.gitignore
+
+# 문서 및 기타
+README.md
+HELP.md
