@@ -34,9 +34,7 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
-    /**
-     * JWT Access Token 발급
-     */
+    // JWT Access Token 발급
     public String createToken(String email) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
@@ -49,10 +47,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    /**
-     * 추가: HTTP 요청 헤더에서 토큰 추출
-     * JwtAuthenticationFilter에서 이 메서드를 호출하여 토큰을 가져옵니다.
-     */
+    // HTTP 요청 헤더에서 토큰 추출
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
@@ -61,17 +56,13 @@ public class JwtTokenProvider {
         return null;
     }
 
-    /**
-     * 토큰에서 인증 정보 조회
-     */
+    // 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserEmail(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    /**
-     * 토큰에서 유저 이메일 추출
-     */
+    // 토큰에서 유저 이메일 추출
     public String getUserEmail(String token) {
         return Jwts.parser()
                 .verifyWith(key)
@@ -81,9 +72,7 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
-    /**
-     * 토큰 유효성 및 만료 여부 검증
-     */
+    // 토큰 유효성 및 만료 여부 검증
     public boolean validateToken(String token) {
         try {
             Jwts.parser().verifyWith(key).build().parseSignedClaims(token);

@@ -5,7 +5,7 @@ spring:
     password: ${DB_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: update # 배포 초기에는 update, 안정화 후에는 none 권장
+      ddl-auto: update
     show-sql: false
     properties:
       hibernate:

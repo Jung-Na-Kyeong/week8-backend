@@ -20,9 +20,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    /**
-     * 회원가입
-     */
+    // 회원가입
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody JoinRequest request) {
         authService.signup(request);
@@ -38,9 +36,7 @@ public class AuthController {
         ));
     }
 
-    /**
-     * 로그인
-     */
+    // 로그인
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
         String accessToken = authService.login(request);
@@ -51,9 +47,7 @@ public class AuthController {
         ));
     }
 
-    /**
-     * 이메일 중복 확인
-     */
+    // 이메일 중복 확인
     @GetMapping("/check-email")
     public ResponseEntity<?> checkEmail(@RequestParam String email) {
         boolean isAvailable = authService.checkEmail(email);
@@ -64,18 +58,16 @@ public class AuthController {
         ));
     }
 
-    /**
-     * 로그아웃 (에러 해결 지점)
-     */
+    // 로그아웃
     @PostMapping("/logout")
     public ResponseEntity<?> logout() {
         authService.logout();
 
-        // Map.of() 대신 HashMap을 사용하여 null 값을 허용하게 만듭니다.
+        // Map.of() 대신 HashMap을 사용하여 null 값을 허용
         Map<String, Object> response = new HashMap<>();
         response.put("status", "success");
         response.put("message", "성공적으로 로그아웃 되었습니다.");
-        response.put("data", null); // 이제 null을 넣어도 에러가 나지 않아요!
+        response.put("data", null);
 
         return ResponseEntity.ok(response);
     }

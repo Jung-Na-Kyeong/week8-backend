@@ -1,4 +1,13 @@
-FROM amazoncorretto:21-alpine-jdk
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+# 깃허브 소스코드를 도커 안으로 가져와서 직접 .jar 파일로 빌드
+FROM openjdk:17-jdk-slim AS builder
+WORKDIR /app
+COPY . .
+# 실행 권한 부여 후 빌드
+RUN chmod +x ./gradlew
+RUN ./gradlew clean bootJar -x test
+
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=builder /app/build/libs/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=prod"]
