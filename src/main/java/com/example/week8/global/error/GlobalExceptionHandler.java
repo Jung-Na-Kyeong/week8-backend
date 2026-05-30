@@ -26,10 +26,21 @@ public class GlobalExceptionHandler {
             // throw new RuntimeException("ErrorCode명")으로 던졌을 때 매핑
             errorCode = ErrorCode.valueOf(e.getMessage());
         } catch (IllegalArgumentException ex) {
+
+            // 정의되지 않은 에러 로그에 남기기
+            e.printStackTrace();
+
             // 정의되지 않은 에러는 500 에러로 처리
             errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
         }
         return createErrorResponse(errorCode, errorCode.getMessage());
+    }
+
+    // 그 외 못 잡은 에러 처리
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<?> handleGeneralException(Exception e) {
+        e.printStackTrace();
+        return createErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR, "알 수 없는 서버 내부 에러가 발생했습니다.");
     }
 
     // 명세서 규격에 맞는 공통 에러 응답 생성
