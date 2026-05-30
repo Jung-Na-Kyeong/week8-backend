@@ -29,11 +29,6 @@ public class AuthService {
             throw new RuntimeException("ALREADY_EXIST_EMAIL");
         }
 
-        // 닉네임 중복 체크 (DB 유니크 제약 조건 준수)
-        if (memberRepository.existsByNickname(request.nickname())) {
-            throw new RuntimeException("ALREADY_EXIST_NICKNAME");
-        }
-
         // 비밀번호 암호화 필수 적용
         Member member = Member.builder()
                 .email(request.email())
@@ -46,7 +41,7 @@ public class AuthService {
         memberRepository.save(member);
     }
 
-    // 로그인 [cite: 70-72]
+    // 로그인
     // 인증 후 JWT Access Token 발급
     public String login(LoginRequest request) {
         // 가입되지 않은 이메일 또는 비밀번호 불일치 시 인증 실패 처리

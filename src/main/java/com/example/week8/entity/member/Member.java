@@ -23,7 +23,7 @@ public class Member {
     @Column(nullable = false)
     private String name; // 사용자 본명
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String nickname; // 서비스 내 별명
 
     @Enumerated(EnumType.STRING)
